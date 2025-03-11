@@ -1,3 +1,5 @@
+// File: lib/features/photos/presentation/screens/photo_details_screen.dart
+
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -153,13 +155,13 @@ class _PhotoDetailsScreenState extends State<PhotoDetailsScreen> with SingleTick
                     imageUrl: _photo.imageUrl,
                     fit: BoxFit.cover,
                     placeholder: (context, url) => Container(
-                      color: theme.colorScheme.secondary.withOpacity(0.1),
+                      color: theme.colorScheme.secondary.withAlpha(25),
                       child: const Center(
                         child: CircularProgressIndicator(),
                       ),
                     ),
                     errorWidget: (context, url, error) => Container(
-                      color: theme.colorScheme.secondary.withOpacity(0.1),
+                      color: theme.colorScheme.secondary.withAlpha(25),
                       child: const Icon(
                         Icons.broken_image,
                         size: 50,
@@ -213,7 +215,7 @@ class _PhotoDetailsScreenState extends State<PhotoDetailsScreen> with SingleTick
                       Text(
                         formattedDate,
                         style: theme.textTheme.bodySmall?.copyWith(
-                          color: theme.colorScheme.onSurface.withOpacity(0.7),
+                          color: theme.colorScheme.onSurface.withAlpha(180),
                         ),
                       ),
                     ],
@@ -265,7 +267,7 @@ class _PhotoDetailsScreenState extends State<PhotoDetailsScreen> with SingleTick
                           ),
                         onPressed: _toggleLike,
                         isCircular: false,
-                        backgroundColor: theme.colorScheme.secondary.withOpacity(0.1),
+                        backgroundColor: theme.colorScheme.secondary.withAlpha(25),
                         size: 40,
                       ),
                       const SizedBox(width: 4),
@@ -289,7 +291,7 @@ class _PhotoDetailsScreenState extends State<PhotoDetailsScreen> with SingleTick
                           _scrollToComments();
                         },
                         isCircular: false,
-                        backgroundColor: theme.colorScheme.secondary.withOpacity(0.1),
+                        backgroundColor: theme.colorScheme.secondary.withAlpha(25),
                         size: 40,
                       ),
                       const SizedBox(width: 4),
@@ -311,7 +313,7 @@ class _PhotoDetailsScreenState extends State<PhotoDetailsScreen> with SingleTick
                           // Handle share
                         },
                         isCircular: false,
-                        backgroundColor: theme.colorScheme.secondary.withOpacity(0.1),
+                        backgroundColor: theme.colorScheme.secondary.withAlpha(25),
                         size: 40,
                       ),
                     ],
@@ -342,7 +344,7 @@ class _PhotoDetailsScreenState extends State<PhotoDetailsScreen> with SingleTick
                       children: _photo.tags.map((tag) {
                         return Chip(
                           label: Text('#$tag'),
-                          backgroundColor: theme.colorScheme.secondary.withOpacity(0.1),
+                          backgroundColor: theme.colorScheme.secondary.withAlpha(25),
                           labelStyle: TextStyle(
                             color: theme.colorScheme.onSurface,
                           ),
@@ -365,7 +367,7 @@ class _PhotoDetailsScreenState extends State<PhotoDetailsScreen> with SingleTick
                       Text(
                         '(${_photo.comments?.length ?? 0})',
                         style: theme.textTheme.titleMedium?.copyWith(
-                          color: theme.colorScheme.onSurface.withOpacity(0.7),
+                          color: theme.colorScheme.onSurface.withAlpha(180),
                         ),
                       ),
                     ],
@@ -377,9 +379,9 @@ class _PhotoDetailsScreenState extends State<PhotoDetailsScreen> with SingleTick
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CircleAvatar(
+                      const CircleAvatar(
                         radius: 18,
-                        backgroundImage: const CachedNetworkImageProvider(
+                        backgroundImage: CachedNetworkImageProvider(
                           'https://picsum.photos/seed/me/100/100',
                         ),
                       ),
@@ -394,7 +396,7 @@ class _PhotoDetailsScreenState extends State<PhotoDetailsScreen> with SingleTick
                               borderSide: BorderSide.none,
                             ),
                             filled: true,
-                            fillColor: theme.colorScheme.secondary.withOpacity(0.1),
+                            fillColor: theme.colorScheme.secondary.withAlpha(25),
                             contentPadding: const EdgeInsets.symmetric(
                               horizontal: 16,
                               vertical: 12,
@@ -417,6 +419,12 @@ class _PhotoDetailsScreenState extends State<PhotoDetailsScreen> with SingleTick
                         size: 40,
                       ),
                     ],
+                  ).animate().fade(duration: 300.ms, delay: 600.ms).slideY(
+                    begin: 0.2,
+                    end: 0,
+                    duration: 300.ms,
+                    delay: 600.ms,
+                    curve: Curves.easeOut,
                   ),
                 ],
               ),
@@ -459,7 +467,7 @@ class _PhotoDetailsScreenState extends State<PhotoDetailsScreen> with SingleTick
                                   Text(
                                     commentDate,
                                     style: theme.textTheme.bodySmall?.copyWith(
-                                      color: theme.colorScheme.onSurface.withOpacity(0.7),
+                                      color: theme.colorScheme.onSurface.withAlpha(180),
                                     ),
                                   ),
                                 ],
@@ -474,6 +482,9 @@ class _PhotoDetailsScreenState extends State<PhotoDetailsScreen> with SingleTick
                         ),
                       ],
                     ),
+                  ).animate().fade(
+                    duration: 300.ms,
+                    delay: 650.ms + (index * 50).ms,
                   );
                 },
                 childCount: _photo.comments!.length,

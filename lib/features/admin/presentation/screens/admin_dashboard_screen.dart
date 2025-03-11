@@ -1,8 +1,9 @@
+// File: lib/features/admin/presentation/screens/admin_dashboard_screen.dart
+
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../../../../core/models/photo_model.dart';
 import '../../../../core/models/event_model.dart';
-import '../../../../core/widgets/buttons/animated_button.dart';
 
 class AdminDashboardScreen extends StatefulWidget {
   const AdminDashboardScreen({Key? key}) : super(key: key);
@@ -72,7 +73,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
     });
     
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
+      const SnackBar(
         content: Text('Photo approved and published'),
         backgroundColor: Colors.green,
       ),
@@ -85,7 +86,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
     });
     
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
+      const SnackBar(
         content: Text('Photo rejected'),
         backgroundColor: Colors.red,
       ),
@@ -98,7 +99,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
     });
     
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
+      const SnackBar(
         content: Text('Event approved and published'),
         backgroundColor: Colors.green,
       ),
@@ -111,7 +112,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
     });
     
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
+      const SnackBar(
         content: Text('Event rejected'),
         backgroundColor: Colors.red,
       ),
@@ -124,7 +125,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
     });
     
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
+      const SnackBar(
         content: Text('Member request approved'),
         backgroundColor: Colors.green,
       ),
@@ -137,7 +138,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
     });
     
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
+      const SnackBar(
         content: Text('Member request rejected'),
         backgroundColor: Colors.red,
       ),
@@ -247,7 +248,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
                       ),
                     ),
                     const SizedBox(height: 8),
-                    Text('Uploaded by: ${photo.uploaderName}'),
+                    Text('Uploaded by: ${photo.userName}'),
                     Text('Tags: ${photo.tags.join(", ")}'),
                     const SizedBox(height: 16),
                     Row(

@@ -1,6 +1,10 @@
+// File: lib/features/photos/presentation/screens/photos_screen.dart
+
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../core/models/photo_model.dart';
+import '../../../../core/router/route_names.dart';
 import '../widgets/photo_staggered_grid.dart';
 import '../../../../core/widgets/animated_app_bar.dart';
 
@@ -86,7 +90,11 @@ class _PhotosScreenState extends State<PhotosScreen> with SingleTickerProviderSt
   }
 
   void _handlePhotoTap(String photoId) {
-    // Navigate to photo details (handled by staggered grid)
+    // Navigate to photo details screen
+    context.pushNamed(
+      RouteNames.photoDetails,
+      pathParameters: {'id': photoId},
+    );
   }
 
   @override
@@ -144,7 +152,7 @@ class _PhotosScreenState extends State<PhotosScreen> with SingleTickerProviderSt
             return PhotoStaggeredGrid(
               photos: _photos,
               onLike: _handlePhotoLike,
-              onPhotoTap: _handlePhotoTap,
+              onPhotoTap: _handlePhotoTap, // Pass the navigation function
               isLoading: _isLoading,
             );
           }).toList(),

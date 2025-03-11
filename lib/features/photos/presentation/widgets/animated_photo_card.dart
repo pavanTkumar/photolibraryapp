@@ -1,3 +1,5 @@
+// File: lib/features/photos/presentation/widgets/animated_photo_card.dart
+
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -47,6 +49,11 @@ class _AnimatedPhotoCardState extends State<AnimatedPhotoCard> with SingleTicker
       vsync: this,
       duration: const Duration(milliseconds: 300),
     );
+    
+    // Initialize the heart animation state
+    if (widget.isLiked) {
+      _heartController.value = 1.0;
+    }
   }
 
   @override
@@ -54,11 +61,25 @@ class _AnimatedPhotoCardState extends State<AnimatedPhotoCard> with SingleTicker
     _heartController.dispose();
     super.dispose();
   }
+  
+  @override
+  void didUpdateWidget(AnimatedPhotoCard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    
+    // Update heart animation state if liked status changes
+    if (widget.isLiked != oldWidget.isLiked) {
+      if (widget.isLiked) {
+        _heartController.forward();
+      } else {
+        _heartController.reverse();
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final customTheme = theme.extension<CustomThemeExtension>()!;
+    final customTheme = theme.extension<CustomThemeExtension>() ?? CustomThemeExtension.light;
     
     // Format date
     final formattedDate = DateFormat.yMMMd().format(widget.uploadDate);
@@ -77,16 +98,7 @@ class _AnimatedPhotoCardState extends State<AnimatedPhotoCard> with SingleTicker
         onEnter: (_) => setState(() => _isHovering = true),
         onExit: (_) => setState(() => _isHovering = false),
         child: GestureDetector(
-          onTap: () {
-            if (widget.onTap != null) {
-              widget.onTap!();
-            } else {
-              context.goNamed(
-                RouteNames.photoDetails,
-                pathParameters: {'id': widget.id},
-              );
-            }
-          },
+          onTap: widget.onTap,
           child: Container(
             decoration: BoxDecoration(
               color: customTheme.cardBackground,
@@ -186,34 +198,39 @@ class _AnimatedPhotoCardState extends State<AnimatedPhotoCard> with SingleTicker
                       const SizedBox(height: 8),
                       
                       // Like button and count
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              widget.onLike();
-                              if (widget.isLiked) {
-                                _heartController.reverse();
-                              } else {
-                                _heartController.forward();
-                              }
-                            },
-                            child: Icon(
-                              widget.isLiked
-                                  ? Icons.favorite
-                                  : Icons.favorite_border,
-                              color: widget.isLiked
-                                  ? Colors.red
-                                  : theme.colorScheme.onSurface,
-                              size: 20,
+                      GestureDetector(
+                        // Important: Add this behavior to prevent the tap from bubbling up
+                        behavior: HitTestBehavior.opaque,
+                        onTap: () {
+                          widget.onLike();
+                          if (widget.isLiked) {
+                            _heartController.reverse();
+                          } else {
+                            _heartController.forward();
+                          }
+                        },
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(4.0), // Increase the tap target
+                              child: Icon(
+                                widget.isLiked
+                                    ? Icons.favorite
+                                    : Icons.favorite_border,
+                                color: widget.isLiked
+                                    ? Colors.red
+                                    : theme.colorScheme.onSurface,
+                                size: 20,
+                              ),
                             ),
-                          ),
-                          const SizedBox(width: 4),
-                          Text(
-                            '${widget.likeCount}',
-                            style: theme.textTheme.labelMedium,
-                          ),
-                        ],
+                            const SizedBox(width: 4),
+                            Text(
+                              '${widget.likeCount}',
+                              style: theme.textTheme.labelMedium,
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),

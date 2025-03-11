@@ -1,5 +1,9 @@
+// File: lib/features/dashboard/presentation/widgets/floating_upload_button.dart
+
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:go_router/go_router.dart';
+import '../../../../core/router/route_names.dart';
 
 class FloatingUploadButton extends StatefulWidget {
   const FloatingUploadButton({Key? key}) : super(key: key);
@@ -37,6 +41,19 @@ class _FloatingUploadButtonState extends State<FloatingUploadButton> with Single
       }
     });
   }
+  
+  void _navigateToPhotoUpload(BuildContext context) {
+    _toggleExpand(); // Close menu
+    context.pushNamed(RouteNames.photoUpload);
+  }
+  
+  void _navigateToEventCreate(BuildContext context) {
+    _toggleExpand(); // Close menu
+    // TODO: Add event creation route when available
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Event creation coming soon!'))
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,12 +73,7 @@ class _FloatingUploadButtonState extends State<FloatingUploadButton> with Single
             opacity: _isExpanded ? 1.0 : 0.0,
             child: FloatingActionButton.small(
               heroTag: 'upload_photo',
-              onPressed: _isExpanded
-                  ? () {
-                      _toggleExpand();
-                      // Navigate to photo upload
-                    }
-                  : null,
+              onPressed: _isExpanded ? () => _navigateToPhotoUpload(context) : null,
               backgroundColor: theme.colorScheme.primary,
               foregroundColor: theme.colorScheme.onPrimary,
               child: const Icon(Icons.photo_camera),
@@ -87,12 +99,7 @@ class _FloatingUploadButtonState extends State<FloatingUploadButton> with Single
             opacity: _isExpanded ? 1.0 : 0.0,
             child: FloatingActionButton.small(
               heroTag: 'upload_event',
-              onPressed: _isExpanded
-                  ? () {
-                      _toggleExpand();
-                      // Navigate to event creation
-                    }
-                  : null,
+              onPressed: _isExpanded ? () => _navigateToEventCreate(context) : null,
               backgroundColor: theme.colorScheme.secondary,
               foregroundColor: theme.colorScheme.onSecondary,
               child: const Icon(Icons.event),

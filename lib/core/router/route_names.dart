@@ -1,3 +1,5 @@
+// File: lib/core/router/route_names.dart
+
 class RouteNames {
   RouteNames._();
   
@@ -12,6 +14,7 @@ class RouteNames {
   
   // Content
   static const String photoDetails = 'photoDetails';
+  static const String photoUpload = 'photoUpload';
   static const String eventDetails = 'eventDetails';
   
   // Admin

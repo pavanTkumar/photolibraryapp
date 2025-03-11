@@ -1,12 +1,16 @@
+// File: lib/features/photos/presentation/widgets/photo_staggered_grid.dart
+
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../core/models/photo_model.dart';
+import '../../../../core/router/route_names.dart';
 import 'animated_photo_card.dart';
 
 class PhotoStaggeredGrid extends StatelessWidget {
   final List<PhotoModel> photos;
   final Function(String) onLike;
-  final Function(String) onPhotoTap;
+  final Function(String)? onPhotoTap;
   final bool isLoading;
   final ScrollController? scrollController;
 
@@ -14,7 +18,7 @@ class PhotoStaggeredGrid extends StatelessWidget {
     Key? key,
     required this.photos,
     required this.onLike,
-    required this.onPhotoTap,
+    this.onPhotoTap,
     this.isLoading = false,
     this.scrollController,
   }) : super(key: key);
@@ -52,7 +56,17 @@ class PhotoStaggeredGrid extends StatelessWidget {
           likeCount: photo.likeCount,
           isLiked: photo.isLiked,
           onLike: () => onLike(photo.id),
-          onTap: () => onPhotoTap(photo.id),
+          onTap: () {
+            if (onPhotoTap != null) {
+              onPhotoTap!(photo.id);
+            } else {
+              // Default behavior - navigate to photo details
+              context.pushNamed(
+                RouteNames.photoDetails,
+                pathParameters: {'id': photo.id},
+              );
+            }
+          },
           index: index,
         );
       },

@@ -1,3 +1,5 @@
+// File: lib/core/router/app_router.dart
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../features/auth/presentation/screens/login_screen.dart';
@@ -7,6 +9,7 @@ import '../../features/dashboard/presentation/screens/main_screen.dart';
 import '../../features/profile/presentation/screens/profile_screen.dart';
 import '../../features/events/presentation/screens/event_details_screen.dart';
 import '../../features/photos/presentation/screens/photo_details_screen.dart';
+import '../../features/photos/presentation/screens/photo_upload_screen.dart';
 import '../../features/admin/presentation/screens/admin_dashboard_screen.dart';
 import 'route_names.dart';
 
@@ -45,7 +48,7 @@ class AppRouter {
         builder: (context, state) => const ProfileScreen(),
       ),
       
-      // Photo details route
+      // Photo routes
       GoRoute(
         path: '/photo/:id',
         name: RouteNames.photoDetails,
@@ -54,8 +57,13 @@ class AppRouter {
           return PhotoDetailsScreen(photoId: photoId);
         },
       ),
+      GoRoute(
+        path: '/photo/upload',
+        name: RouteNames.photoUpload,
+        builder: (context, state) => const PhotoUploadScreen(),
+      ),
       
-      // Event details route
+      // Event routes
       GoRoute(
         path: '/event/:id',
         name: RouteNames.eventDetails,
