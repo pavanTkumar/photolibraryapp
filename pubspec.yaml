@@ -1,0 +1,52 @@
+name: fishpond
+description: A modern photo sharing app for non-profit communities.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  # UI Design & Aesthetics
+  google_fonts: ^5.1.0
+  flutter_animate: ^4.1.1+1
+  lottie: ^2.3.2
+  flutter_svg: ^2.0.5
+  
+  # Photo Sharing & Gallery
+  flutter_staggered_grid_view: ^0.6.2
+  cached_network_image: ^3.2.3
+  image_picker: ^0.8.7+5
+  photo_view: ^0.14.0
+  
+  # Navigation & Animation
+  go_router: ^10.0.0
+  salomon_bottom_bar: ^3.3.2
+  
+  # State Management
+  provider: ^6.0.5
+  
+  # Utilities
+  intl: ^0.18.1
+  shared_preferences: ^2.1.1
+  uuid: ^3.0.7
+  
+  # Icons
+  cupertino_icons: ^1.0.5
+  font_awesome_flutter: ^10.4.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.1
+
+flutter:
+  uses-material-design: true
+  
+  assets:
+    - assets/images/
+    - assets/animations/
+    - assets/icons/
