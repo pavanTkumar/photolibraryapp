@@ -169,26 +169,32 @@ class _EventsScreenState extends State<EventsScreen> with SingleTickerProviderSt
               );
             }
             
+            // Fixed: Use ListView.builder directly without padding to avoid overflow
             return ListView.builder(
               padding: const EdgeInsets.all(16),
               itemCount: _events.length,
               itemBuilder: (context, index) {
                 final event = _events[index];
                 
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 16),
-                  child: AnimatedEventCard(
-                    id: event.id,
-                    title: event.title,
-                    description: event.description,
-                    imageUrl: event.imageUrl,
-                    eventDate: event.eventDate,
-                    location: event.location,
-                    organizerName: event.organizerName,
-                    attendeeCount: event.attendeeCount,
-                    isAttending: event.isAttending,
-                    onAttendToggle: () => _handleEventAttendToggle(event.id),
-                    index: index,
+                // Fixed: Wrap with SizedBox to constrain height and prevent overflow
+                return SizedBox(
+                  // No fixed height - let items size naturally within ListView
+                  width: double.infinity,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 16),
+                    child: AnimatedEventCard(
+                      id: event.id,
+                      title: event.title,
+                      description: event.description,
+                      imageUrl: event.imageUrl,
+                      eventDate: event.eventDate,
+                      location: event.location,
+                      organizerName: event.organizerName,
+                      attendeeCount: event.attendeeCount,
+                      isAttending: event.isAttending,
+                      onAttendToggle: () => _handleEventAttendToggle(event.id),
+                      index: index,
+                    ),
                   ),
                 );
               },
@@ -202,7 +208,7 @@ class _EventsScreenState extends State<EventsScreen> with SingleTickerProviderSt
   Widget _buildLoadingList() {
     return ListView.builder(
       padding: const EdgeInsets.all(16),
-      itemCount: 5,
+      itemCount: 3, // Reduced to prevent overflow
       itemBuilder: (context, index) {
         return Padding(
           padding: const EdgeInsets.only(bottom: 16),
@@ -214,7 +220,7 @@ class _EventsScreenState extends State<EventsScreen> with SingleTickerProviderSt
   
   Widget _buildLoadingItem() {
     return Container(
-      height: 300,
+      height: 280, // Fixed height for loading item
       decoration: BoxDecoration(
         color: Colors.grey.shade200,
         borderRadius: BorderRadius.circular(16),
@@ -275,15 +281,6 @@ class _EventsScreenState extends State<EventsScreen> with SingleTickerProviderSt
                     borderRadius: BorderRadius.circular(4),
                   ),
                 ),
-                const SizedBox(height: 24),
-                Container(
-                  height: 40,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade300,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
               ],
             ),
           ),
@@ -293,10 +290,10 @@ class _EventsScreenState extends State<EventsScreen> with SingleTickerProviderSt
     .animate(delay: 300.ms)
     .shimmer(
       duration: 1200.ms,
-      color: Colors.white.withOpacity(0.2),
+      color: Colors.white.withOpacity(0.1),
       colors: [
         Colors.white.withOpacity(0.1),
-        Colors.white.withOpacity(0.3),
+        Colors.white.withOpacity(0.2),
         Colors.white.withOpacity(0.1),
       ],
     )

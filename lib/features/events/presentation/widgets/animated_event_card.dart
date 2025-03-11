@@ -80,9 +80,9 @@ class _AnimatedEventCardState extends State<AnimatedEventCard> with SingleTicker
     
     return Animate(
       effects: [
-        FadeEffect(delay: (widget.index * 100).ms, duration: 300.ms),
+        FadeEffect(delay: (widget.index * 50).ms, duration: 300.ms),
         SlideEffect(
-          delay: (widget.index * 100).ms,
+          delay: (widget.index * 50).ms,
           duration: 300.ms,
           begin: const Offset(0, 0.2),
           end: const Offset(0, 0),
@@ -98,8 +98,7 @@ class _AnimatedEventCardState extends State<AnimatedEventCard> with SingleTicker
               pathParameters: {'id': widget.id},
             );
           },
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 200),
+          child: Container(
             decoration: BoxDecoration(
               color: customTheme.eventCardBackground,
               borderRadius: customTheme.defaultBorderRadius,
@@ -113,12 +112,9 @@ class _AnimatedEventCardState extends State<AnimatedEventCard> with SingleTicker
                     ]
                   : [],
             ),
-            transformAlignment: Alignment.center,
-            transform: _isHovering
-                ? (Matrix4.identity()..translate(0.0, -5.0))
-                : Matrix4.identity(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min, // Use min size to prevent expansion
               children: [
                 // Image with event status indicator
                 Stack(
@@ -186,6 +182,7 @@ class _AnimatedEventCardState extends State<AnimatedEventCard> with SingleTicker
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min, // Use min size to prevent expansion
                     children: [
                       // Title
                       Text(
@@ -193,7 +190,7 @@ class _AnimatedEventCardState extends State<AnimatedEventCard> with SingleTicker
                         style: theme.textTheme.titleLarge?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
-                        maxLines: 2,
+                        maxLines: 1, // Limit to 1 line to prevent overflow
                         overflow: TextOverflow.ellipsis,
                       ),
                       
@@ -208,10 +205,14 @@ class _AnimatedEventCardState extends State<AnimatedEventCard> with SingleTicker
                             color: theme.colorScheme.primary,
                           ),
                           const SizedBox(width: 8),
-                          Text(
-                            '$formattedDate at $formattedTime',
-                            style: theme.textTheme.bodyMedium?.copyWith(
-                              color: theme.colorScheme.onSurface,
+                          Expanded(
+                            child: Text(
+                              '$formattedDate at $formattedTime',
+                              style: theme.textTheme.bodyMedium?.copyWith(
+                                color: theme.colorScheme.onSurface,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
                         ],
@@ -243,13 +244,13 @@ class _AnimatedEventCardState extends State<AnimatedEventCard> with SingleTicker
                       
                       const SizedBox(height: 8),
                       
-                      // Description
+                      // Description - Limited to 1 line
                       Text(
                         widget.description,
                         style: theme.textTheme.bodyMedium?.copyWith(
                           color: theme.colorScheme.onSurface.withOpacity(0.7),
                         ),
-                        maxLines: 2,
+                        maxLines: 1, // Limit to 1 line to prevent overflow
                         overflow: TextOverflow.ellipsis,
                       ),
                       
@@ -257,7 +258,7 @@ class _AnimatedEventCardState extends State<AnimatedEventCard> with SingleTicker
                       
                       // Organizer and Attendees
                       Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           // Organizer
                           Expanded(
@@ -292,7 +293,7 @@ class _AnimatedEventCardState extends State<AnimatedEventCard> with SingleTicker
                               ),
                               const SizedBox(width: 4),
                               Text(
-                                '${widget.attendeeCount} attending',
+                                '${widget.attendeeCount}',
                                 style: theme.textTheme.labelMedium,
                               ),
                             ],
@@ -306,14 +307,7 @@ class _AnimatedEventCardState extends State<AnimatedEventCard> with SingleTicker
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed: () {
-                            widget.onAttendToggle();
-                            if (widget.isAttending) {
-                              _controller.reverse();
-                            } else {
-                              _controller.forward();
-                            }
-                          },
+                          onPressed: widget.onAttendToggle,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: widget.isAttending
                                 ? theme.colorScheme.primary
@@ -321,6 +315,7 @@ class _AnimatedEventCardState extends State<AnimatedEventCard> with SingleTicker
                             foregroundColor: widget.isAttending
                                 ? theme.colorScheme.onPrimary
                                 : theme.colorScheme.primary,
+                            padding: const EdgeInsets.symmetric(vertical: 12),
                           ),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
@@ -330,22 +325,11 @@ class _AnimatedEventCardState extends State<AnimatedEventCard> with SingleTicker
                                     ? Icons.check
                                     : Icons.add,
                                 size: 18,
-                              ).animate(controller: _controller)
-                                .custom(
-                                  builder: (context, value, child) {
-                                    return Transform.rotate(
-                                      angle: 2 * 3.14 * value,
-                                      child: child,
-                                    );
-                                  },
-                                  begin: 0.0,
-                                  end: 1.0,
-                                  duration: 300.ms,
-                                ),
+                              ),
                               const SizedBox(width: 8),
                               Text(
                                 widget.isAttending ? 'Attending' : 'Attend',
-                                style: theme.textTheme.labelLarge?.copyWith(
+                                style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),

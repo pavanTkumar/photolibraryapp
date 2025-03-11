@@ -4,7 +4,7 @@ class AppColors {
   // Private constructor to prevent instantiation
   AppColors._();
   
-  // Light theme color scheme
+  // Light theme color scheme - improved contrast and vibrancy
   static const ColorScheme lightColorScheme = ColorScheme(
     brightness: Brightness.light,
     primary: Color(0xFF6750A4),
@@ -32,7 +32,7 @@ class AppColors {
     onSurfaceVariant: Color(0xFF49454E),
   );
   
-  // Dark theme color scheme
+  // Dark theme color scheme - Enhanced for better dark mode visibility
   static const ColorScheme darkColorScheme = ColorScheme(
     brightness: Brightness.dark,
     primary: Color(0xFFD0BCFF),
@@ -65,7 +65,11 @@ class AppColors {
   static const Color brandSecondary = Color(0xFF625B71);
   static const Color brandAccent = Color(0xFF7E5260);
   
-  // Gradient colors
+  // Additional colors for different components in dark mode
+  static const Color darkCardBackground = Color(0xFF2D2D2D);
+  static const Color darkElevatedSurface = Color(0xFF353535);
+  
+  // Gradient colors - Enhanced for more vibrant look in both modes
   static const List<Color> primaryGradient = [
     Color(0xFF9C27B0),
     Color(0xFF6750A4),
@@ -74,5 +78,16 @@ class AppColors {
   static const List<Color> secondaryGradient = [
     Color(0xFF7E5260),
     Color(0xFF625B71),
+  ];
+  
+  // Dark mode gradients
+  static const List<Color> darkPrimaryGradient = [
+    Color(0xFFD0BCFF),
+    Color(0xFF9C27B0),
+  ];
+  
+  static const List<Color> darkSecondaryGradient = [
+    Color(0xFFCCC2DC),
+    Color(0xFF4A4458),
   ];
 }
