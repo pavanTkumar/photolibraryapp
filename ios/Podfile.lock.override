@@ -1,0 +1,7 @@
+PODS:
+  - BoringSSL-GRPC (0.0.24):
+    - BoringSSL-GRPC/Implementation (= 0.0.24)
+    - BoringSSL-GRPC/Interface (= 0.0.24)
+  - BoringSSL-GRPC/Implementation (0.0.24):
+    - BoringSSL-GRPC/Interface (= 0.0.24)
+  - BoringSSL-GRPC/Interface (0.0.24)
